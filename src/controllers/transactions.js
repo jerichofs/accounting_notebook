@@ -22,7 +22,6 @@ const getTransactionById = (req, res) => {
 };
 
 const addTransaction = (req, res) => {
-  console.log("body ", req.body);
   const { type, amount } = req.body;
   let transaction;
 
