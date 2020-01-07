@@ -3,9 +3,13 @@
  */
 const express = require("express");
 
+const transactions = require("./routes/transactions");
+
 const app = express();
 
 const port = 3000;
+
+app.use("/transactions", transactions);
 
 app.use((req, res) => {
   return res.status(404).json({
