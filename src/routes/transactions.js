@@ -1,6 +1,12 @@
 const express = require("express");
 const transactions = express.Router();
 const bodyParser = require("body-parser");
+const { validate } = require("../middleware/validation");
+
+const {
+  getTransactionByIdSchema,
+  addTransactionSchema
+} = require("../validation/transactions");
 
 const {
   getTransactions,
@@ -14,10 +20,19 @@ const urlencodedParser = bodyParser.urlencoded({ extended: false });
 transactions.get("/", getTransactions);
 
 // Find transaction by ID
-transactions.get("/:transactionId", getTransactionById);
+transactions.get(
+  "/:transactionId",
+  validate(getTransactionByIdSchema, "params"),
+  getTransactionById
+);
 
 // Add new transaction
-transactions.post("/", urlencodedParser, addTransaction);
+transactions.post(
+  "/",
+  urlencodedParser,
+  validate(addTransactionSchema, "body"),
+  addTransaction
+);
 
 // handle 404 error
 transactions.use((req, res) => {
